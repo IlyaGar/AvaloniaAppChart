@@ -1,0 +1,109 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaAppChart.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+        xmlns:dataGrid="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+        x:Class="AvaloniaAppChart.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        xmlns:local="clr-namespace:AvaloniaAppChart.Common"
+        x:Name="root"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="AvaloniaAppChart"
+        Width="800"
+        Height="800">
+  
+  <Window.Resources>
+    <local:PlaceholderConverter x:Key="PlaceholderConverter"/>
+  </Window.Resources>
+
+  <StackPanel Margin="10">
+    
+    <StackPanel Orientation="Horizontal" Spacing="5" Margin="10">
+      <Button Content="Копировать" Command="{Binding CopyCommand}" />
+      <Button Content="Вставить" Command="{Binding PasteCommand}" />
+      <Button Content="Очистить" Command="{Binding ClearCommand}" />
+      <Button Content="Сохранить в файл" Command="{Binding SaveToFileCommand}" />
+      <Button Content="Загрузить из файла" Command="{Binding LoadFromFileCommand}" />
+      <Button Content="Обратная функция"
+                    Command="{Binding ToggleInverseCommand}" />
+    </StackPanel>
+
+    <dataGrid:DataGrid ItemsSource="{Binding ChartPoints}"
+                       AutoGenerateColumns="False"
+                       Height="300"
+                       GridLinesVisibility="All"
+                       BorderBrush="Gray"
+                       BorderThickness="1">
+      <dataGrid:DataGrid.Columns>
+        <dataGrid:DataGridTemplateColumn Header="X" Width="*">
+          <dataGrid:DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding X, Converter={StaticResource PlaceholderConverter}}" />
+            </DataTemplate>
+          </dataGrid:DataGridTemplateColumn.CellTemplate>
+
+          <dataGrid:DataGridTemplateColumn.CellEditingTemplate>
+            <DataTemplate>
+              <StackPanel>
+                <TextBox Text="{Binding X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Watermark="Введите X" />
+              </StackPanel>
+            </DataTemplate>
+
+          </dataGrid:DataGridTemplateColumn.CellEditingTemplate>
+        </dataGrid:DataGridTemplateColumn>
+
+        <dataGrid:DataGridTemplateColumn Header="Y" Width="*">
+          <dataGrid:DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Y, Converter={StaticResource PlaceholderConverter}}" />
+            </DataTemplate>
+          </dataGrid:DataGridTemplateColumn.CellTemplate>
+
+          <dataGrid:DataGridTemplateColumn.CellEditingTemplate>
+            <DataTemplate>
+              <TextBox Text="{Binding Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       Watermark="Введите Y" />
+            </DataTemplate>
+          </dataGrid:DataGridTemplateColumn.CellEditingTemplate>
+        </dataGrid:DataGridTemplateColumn>
+
+        <dataGrid:DataGridTemplateColumn Header="✖" Width="Auto">
+          <dataGrid:DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Button Content="🗑"
+                      Command="{Binding #root.((vm:MainWindowViewModel)DataContext).DeletePointCommand}"
+                      CommandParameter="{Binding}"
+                      Padding="2"
+                      ToolTip.Tip="Удалить точку"
+                      IsVisible="{Binding IsFilled}"/>
+
+            </DataTemplate>
+          </dataGrid:DataGridTemplateColumn.CellTemplate>
+        </dataGrid:DataGridTemplateColumn>
+        
+      </dataGrid:DataGrid.Columns>
+    </dataGrid:DataGrid>
+
+    <lvc:CartesianChart Series="{Binding Series}"
+                    XAxes="{Binding XAxes}"
+                    YAxes="{Binding YAxes}"
+                    Height="400"
+                    Margin="0,10,0,0"
+                    IsVisible="{Binding !IsInverseVisible}"/>
+
+    <StackPanel IsVisible="{Binding IsInverseVisible}">
+      <TextBlock Text="Обратная функция"
+                 FontSize="16"
+                 FontWeight="Bold"
+                 Margin="0,0,0,5"/>
+      <lvc:CartesianChart Series="{Binding InverseSeries}"
+                          XAxes="{Binding YAxes}"
+                          YAxes="{Binding XAxes}"
+                          Height="400" />
+    </StackPanel>
+  </StackPanel>
+</Window>
