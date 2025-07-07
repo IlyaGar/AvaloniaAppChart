@@ -1,25 +1,37 @@
-﻿using AvaloniaAppChart.Models;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System;
 using System.Linq;
-using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
-using System.Reactive.Linq;
-using LiveChartsCore.Defaults;
-using ReactiveUI;
-using System.Reactive;
-using System;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Reactive.Linq;
+using ReactiveUI;
 using Avalonia.Input.Platform;
 using Avalonia.ReactiveUI;
 using AvaloniaAppChart.Services;
-using LiveChartsCore.SkiaSharpView.Painting;
+using AvaloniaAppChart.Models;
 using SkiaSharp;
+using Avalonia.Input;
+using LiveChartsCore;
+using LiveChartsCore.Drawing;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.Kernel;
+using LiveChartsCore.Kernel.Sketches;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.Avalonia;
+using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+using System.Collections.Generic;
+
 
 namespace AvaloniaAppChart.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
+        private СoordinateChartPoint? _draggedPoint;
+        private List<СoordinateChartPoint> _renderedPoints = [];
+        private bool _isDragging = false;
+        private bool _suspendSeriesRefresh = false;
         private bool _hasUnsavedChanges;
         public bool HasUnsavedChanges
         {
@@ -42,7 +54,7 @@ namespace AvaloniaAppChart.ViewModels
         private readonly ChartDataService _dataService;
         private readonly ClipboardChartService _clipboardService;
 
-        public ObservableCollection<ChartPoint> ChartPoints { get; } = [];
+        public ObservableCollection<СoordinateChartPoint> ChartPoints { get; } = [];
         public ISeries[]? Series { get; private set; } = [];
         public ISeries[]? InverseSeries { get; private set; } = [];
         public Axis[] XAxes { get; } =
@@ -77,7 +89,7 @@ namespace AvaloniaAppChart.ViewModels
         public ReactiveCommand<Unit, Unit> ClearCommand { get; }
         public ReactiveCommand<Unit, Unit> SaveToFileCommand { get; }
         public ReactiveCommand<Unit, Unit> LoadFromFileCommand { get; }
-        public ReactiveCommand<ChartPoint, Unit> DeletePointCommand { get; }
+        public ReactiveCommand<СoordinateChartPoint, Unit> DeletePointCommand { get; }
         public bool IsInverseVisible => ShowInverse && InverseSeries is not null;
 
         public ReactiveCommand<Unit, Unit> ToggleInverseCommand { get; }
@@ -88,7 +100,7 @@ namespace AvaloniaAppChart.ViewModels
             _dataService = new ChartDataService();
             _clipboardService = new ClipboardChartService(_clipboard);
 
-            ChartPoints.Add(new ChartPoint());
+            ChartPoints.Add(new СoordinateChartPoint());
 
             ((INotifyPropertyChanged)ChartPoints[0]).PropertyChanged += OnRowChanged;
 
@@ -97,7 +109,7 @@ namespace AvaloniaAppChart.ViewModels
             CopyCommand = ReactiveCommand.CreateFromTask(CopyToClipboardAsync, outputScheduler: AvaloniaScheduler.Instance);
             PasteCommand = ReactiveCommand.CreateFromTask(PasteFromClipboardAsync, outputScheduler: AvaloniaScheduler.Instance);
             ClearCommand = ReactiveCommand.Create(ClearData, outputScheduler: AvaloniaScheduler.Instance);
-            DeletePointCommand = ReactiveCommand.Create<ChartPoint>(DeletePoint, outputScheduler: AvaloniaScheduler.Instance);
+            DeletePointCommand = ReactiveCommand.Create<СoordinateChartPoint>(DeletePoint, outputScheduler: AvaloniaScheduler.Instance);
             SaveToFileCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 await _dataService.SaveToFileAsync(ChartPoints);
@@ -145,9 +157,12 @@ namespace AvaloniaAppChart.ViewModels
 
         private void OnRowChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (sender is ChartPoint point && point.IsFilled && ChartPoints.Last() == point)
+            if (_suspendSeriesRefresh)
+                return;
+
+            if (sender is СoordinateChartPoint point && point.IsFilled && ChartPoints.Last() == point)
             {
-                var newPoint = new ChartPoint();
+                var newPoint = new СoordinateChartPoint();
                 ChartPoints.Add(newPoint);
                 ((INotifyPropertyChanged)newPoint).PropertyChanged += OnRowChanged;
             }
@@ -159,22 +174,28 @@ namespace AvaloniaAppChart.ViewModels
 
         private void RefreshSeries()
         {
-            var points = ChartPoints
+            _renderedPoints = ChartPoints
                 .Where(p => p.IsFilled)
-                .OrderBy(p => p.X!.Value)
-                .Select(p => new ObservablePoint(p.X!.Value, p.Y!.Value))
-                .ToArray();
+                .ToList();
 
-            Series =
-            [
-                new LineSeries<ObservablePoint> 
-                { 
-                    Values = points,
-                    LineSmoothness = 0,
-                    GeometrySize = 6 
+            var series = new LineSeries<СoordinateChartPoint>
+            {
+                Values = _renderedPoints,
+                LineSmoothness = 0,
+                GeometrySize = 10,
+                Fill = null,
+                Stroke = new SolidColorPaint(SKColors.DodgerBlue),
+                Mapping = (model, index) =>
+                {
+                    var x = model.X ?? 0;
+                    var y = model.Y ?? 0;
+                    return new Coordinate(x, y);
                 }
-            ];
+            };
 
+            series.ChartPointPointerDown += OnPointerDown;
+
+            Series = [series];
             this.RaisePropertyChanged(nameof(Series));
         }
 
@@ -197,7 +218,7 @@ namespace AvaloniaAppChart.ViewModels
                 ((INotifyPropertyChanged)point).PropertyChanged += OnRowChanged;
             }
 
-            var emptyPoint = new ChartPoint();
+            var emptyPoint = new СoordinateChartPoint();
             ChartPoints.Add(emptyPoint);
             ((INotifyPropertyChanged)emptyPoint).PropertyChanged += OnRowChanged;
 
@@ -217,13 +238,13 @@ namespace AvaloniaAppChart.ViewModels
         private void ClearData()
         {
             ChartPoints.Clear();
-            var newPoint = new ChartPoint();
+            var newPoint = new СoordinateChartPoint();
             ChartPoints.Add(newPoint);
             ((INotifyPropertyChanged)newPoint).PropertyChanged += OnRowChanged;
             CheckIfOnlyEmptyRowLeft();
         }
 
-        private void DeletePoint(ChartPoint point)
+        private void DeletePoint(СoordinateChartPoint point)
         {
             ChartPoints.Remove(point);
             CheckIfOnlyEmptyRowLeft();
@@ -281,6 +302,49 @@ namespace AvaloniaAppChart.ViewModels
             var filledPoints = ChartPoints.Where(p => p.IsFilled).ToList();
             var allY = filledPoints.Select(p => p.Y!.Value);
             return allY.Distinct().Count() == allY.Count();
+        }
+
+        private void OnChartPointerMoved(object? sender, PointerEventArgs e)
+        {
+            if (_draggedPoint == null || sender is not CartesianChart chart) return;
+            if (!_isDragging) return;
+
+            var pixel = e.GetPosition(chart);
+            var dataPoint = chart.ScalePixelsToData(new LvcPointD(pixel.X, pixel.Y));
+
+            _suspendSeriesRefresh = true;
+
+            _draggedPoint.X = dataPoint.X;
+            _draggedPoint.Y = dataPoint.Y;
+
+            _suspendSeriesRefresh = false;
+        }
+
+        private void OnChartPointerReleased(object? sender, PointerReleasedEventArgs e)
+        {
+            if (sender is not CartesianChart chart)
+                return;
+
+            chart.PointerMoved -= OnChartPointerMoved;
+            chart.PointerReleased -= OnChartPointerReleased;
+
+            _draggedPoint = null;
+            _isDragging = false;
+
+            RefreshSeries();
+            RefreshInverseSeries();
+        }
+
+        private void OnPointerDown(IChartView chart, ChartPoint<СoordinateChartPoint, CircleGeometry, LabelGeometry> point)
+        {
+            _isDragging = true;
+
+            if (point.Model == null || chart is not CartesianChart c) return;
+
+            _draggedPoint = point.Model;
+
+            c.PointerMoved += OnChartPointerMoved;
+            c.PointerReleased += OnChartPointerReleased;
         }
     }
 }

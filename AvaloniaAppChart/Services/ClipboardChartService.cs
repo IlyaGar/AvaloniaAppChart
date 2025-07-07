@@ -18,7 +18,7 @@ namespace AvaloniaAppChart.Services
 
         private static readonly string[] _separator = ["\r\n", "\n"];
 
-        public async Task CopyAsync(IEnumerable<ChartPoint> chartPoints)
+        public async Task CopyAsync(IEnumerable<СoordinateChartPoint> chartPoints)
         {
             var lines = chartPoints
                 .Where(p => p.IsFilled)
@@ -28,10 +28,10 @@ namespace AvaloniaAppChart.Services
             await _clipboard.SetTextAsync(text);
         }
 
-        public async Task<(List<ChartPoint> NewPoints, List<string> SkippedLines)> PasteAsync(IEnumerable<ChartPoint> existingPoints)
+        public async Task<(List<СoordinateChartPoint> NewPoints, List<string> SkippedLines)> PasteAsync(IEnumerable<СoordinateChartPoint> existingPoints)
         {
             var text = await _clipboard.GetTextAsync();
-            var result = new List<ChartPoint>();
+            var result = new List<СoordinateChartPoint>();
             var skipped = new List<string>();
 
             if (string.IsNullOrWhiteSpace(text))
@@ -53,7 +53,7 @@ namespace AvaloniaAppChart.Services
                 {
                     if (!existingSet.Contains((x, y)))
                     {
-                        result.Add(new ChartPoint { X = x, Y = y });
+                        result.Add(new СoordinateChartPoint { X = x, Y = y });
                         existingSet.Add((x, y));
                     }
                     else

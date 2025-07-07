@@ -2,7 +2,7 @@
 
 namespace AvaloniaAppChart.Models
 {
-    public class ChartPoint : ReactiveObject
+    public class СoordinateChartPoint : ReactiveObject
     {
         private double? _x;
         public double? X

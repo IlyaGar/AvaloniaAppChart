@@ -22,7 +22,7 @@ namespace AvaloniaAppChart.Services
             throw new InvalidOperationException("MainWindow is null or application lifetime is not desktop");
         }
 
-        public async Task SaveToFileAsync(IList<ChartPoint> chartPoints)
+        public async Task SaveToFileAsync(IList<СoordinateChartPoint> chartPoints)
         {
             var dialog = new SaveFileDialog
             {
@@ -40,7 +40,7 @@ namespace AvaloniaAppChart.Services
             await File.WriteAllLinesAsync(filePath, lines);
         }
 
-        public async Task LoadFromFileAsync(ObservableCollection<ChartPoint> chartPoints)
+        public async Task LoadFromFileAsync(ObservableCollection<СoordinateChartPoint> chartPoints)
         {
             var dialog = new OpenFileDialog
             {
@@ -63,13 +63,13 @@ namespace AvaloniaAppChart.Services
                     double.TryParse(parts[0], out var x) &&
                     double.TryParse(parts[1], out var y))
                 {
-                    var point = new ChartPoint { X = x, Y = y };
+                    var point = new СoordinateChartPoint { X = x, Y = y };
                     chartPoints.Add(point);
                     ((INotifyPropertyChanged)point).PropertyChanged += (_, _) => { };
                 }
             }
 
-            var empty = new ChartPoint();
+            var empty = new СoordinateChartPoint();
             chartPoints.Add(empty);
             ((INotifyPropertyChanged)empty).PropertyChanged += (_, _) => { };
         }

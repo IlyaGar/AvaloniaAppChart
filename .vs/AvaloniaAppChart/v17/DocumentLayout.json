@@ -1,0 +1,117 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\work\\summary\\git\\AvaloniaAppChart\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|d:\\work\\summary\\git\\avaloniaappchart\\avaloniaappchart\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|solutionrelative:avaloniaappchart\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|d:\\work\\summary\\git\\avaloniaappchart\\avaloniaappchart\\models\\\u0441oordinatefunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|solutionrelative:avaloniaappchart\\models\\\u0441oordinatefunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|d:\\work\\summary\\git\\avaloniaappchart\\avaloniaappchart\\views\\mainwindow.axaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|solutionrelative:avaloniaappchart\\views\\mainwindow.axaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|d:\\work\\summary\\git\\avaloniaappchart\\avaloniaappchart\\models\\\u0441oordinatechartpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|solutionrelative:avaloniaappchart\\models\\\u0441oordinatechartpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|d:\\work\\summary\\git\\avaloniaappchart\\avaloniaappchart\\views\\mainwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA653F7F-9FA6-40ED-84CA-A3BCAF9EB9FF}|AvaloniaAppChart\\AvaloniaAppChart.csproj|solutionrelative:avaloniaappchart\\views\\mainwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 286,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "\u0421oordinateFunction.cs",
+              "DocumentMoniker": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\Models\\\u0421oordinateFunction.cs",
+              "RelativeDocumentMoniker": "AvaloniaAppChart\\Models\\\u0421oordinateFunction.cs",
+              "ToolTip": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\Models\\\u0421oordinateFunction.cs",
+              "RelativeToolTip": "AvaloniaAppChart\\Models\\\u0421oordinateFunction.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwA4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T10:13:49.183Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindowViewModel.cs",
+              "DocumentMoniker": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\ViewModels\\MainWindowViewModel.cs",
+              "RelativeDocumentMoniker": "AvaloniaAppChart\\ViewModels\\MainWindowViewModel.cs",
+              "ToolTip": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\ViewModels\\MainWindowViewModel.cs",
+              "RelativeToolTip": "AvaloniaAppChart\\ViewModels\\MainWindowViewModel.cs",
+              "ViewState": "AQIAAMIAAAAAAAAAAAAqwM8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T07:21:09.228Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainWindow.axaml.cs",
+              "DocumentMoniker": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\Views\\MainWindow.axaml.cs",
+              "RelativeDocumentMoniker": "AvaloniaAppChart\\Views\\MainWindow.axaml.cs",
+              "ToolTip": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\Views\\MainWindow.axaml.cs",
+              "RelativeToolTip": "AvaloniaAppChart\\Views\\MainWindow.axaml.cs",
+              "ViewState": "AQIAABoAAAAAAAAAAAAgwBYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T07:33:54.109Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "\u0421oordinateChartPoint.cs",
+              "DocumentMoniker": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\Models\\\u0421oordinateChartPoint.cs",
+              "RelativeDocumentMoniker": "AvaloniaAppChart\\Models\\\u0421oordinateChartPoint.cs",
+              "ToolTip": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\Models\\\u0421oordinateChartPoint.cs",
+              "RelativeToolTip": "AvaloniaAppChart\\Models\\\u0421oordinateChartPoint.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T07:21:00.275Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.axaml",
+              "DocumentMoniker": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\Views\\MainWindow.axaml",
+              "RelativeDocumentMoniker": "AvaloniaAppChart\\Views\\MainWindow.axaml",
+              "ToolTip": "D:\\work\\summary\\git\\AvaloniaAppChart\\AvaloniaAppChart\\Views\\MainWindow.axaml",
+              "RelativeToolTip": "AvaloniaAppChart\\Views\\MainWindow.axaml",
+              "ViewState": "AQIAAEMAAAAAAAAAAAAqwFkAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-07-03T07:20:35.439Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
